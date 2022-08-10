@@ -1,5 +1,6 @@
 package com.github.wezmoreira.site.service;
 
+import com.github.wezmoreira.site.dto.request.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
 import com.github.wezmoreira.site.entities.Cliente;
@@ -44,8 +45,9 @@ public class ServiceCliente {
         return modelMapper.map(clienteSalvo, ResponseClienteDTO.class);
     }
 
-    public void atualizar(RequestClienteDTO requestClienteDTO, String cpf) {
-        Cliente cliente = repositoryCliente.findById(cpf).orElseThrow(ClienteNaoEncontradoException::new);
+    public void atualizar(RequestAtualizaClienteDTO requestClienteDTO, String cpf) {
+        Cliente cliente = repositoryCliente.findById(cpf)
+                .orElseThrow(ClienteNaoEncontradoException::new);
         modelMapper.map(requestClienteDTO, cliente);
         repositoryCliente.save(cliente);
     }

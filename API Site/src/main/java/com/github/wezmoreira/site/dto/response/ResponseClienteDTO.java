@@ -20,11 +20,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class ResponseClienteDTO {
 
-    @Id
-    private String cpf; //alterar pra ser a PK
-    @NotBlank
+    private String cpf;
     private String nome;
-    @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime data_criacao;
 }

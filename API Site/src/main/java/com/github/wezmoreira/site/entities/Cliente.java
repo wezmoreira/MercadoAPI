@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -16,13 +18,15 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(uniqueConstraints={@UniqueConstraint(columnNames={"cpf"})})
 public class Cliente {
 
     @Id
-    private String cpf; //alterar pra ser a PK
+    @Column(unique=true, updatable = false)
+    @NotBlank @NotNull
+    private String cpf;
     @NotBlank
     private String nome;
-    @NotNull
-    @JsonFormat
+    @CreationTimestamp
     private LocalDateTime data_criacao;
 }

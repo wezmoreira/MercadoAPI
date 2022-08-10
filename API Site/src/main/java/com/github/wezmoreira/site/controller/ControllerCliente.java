@@ -1,5 +1,6 @@
 package com.github.wezmoreira.site.controller;
 
+import com.github.wezmoreira.site.dto.request.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
 import com.github.wezmoreira.site.service.ServiceCliente;
@@ -31,7 +32,7 @@ public class ControllerCliente {
         return ResponseEntity.ok(responseClienteDTOS);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/{cpf}")
     public ResponseEntity<ResponseClienteDTO> get(@PathVariable String cpf) {
         ResponseClienteDTO responseClienteDTO = serviceCliente.get(cpf);
         return ResponseEntity.ok(responseClienteDTO);
@@ -45,8 +46,8 @@ public class ControllerCliente {
         return ResponseEntity.created(uri).body(responseClienteDTO);
     }
 
-    @PutMapping("/{id}")
-    public  ResponseEntity<Void> update(@RequestBody @Valid RequestClienteDTO requestClienteDTO, @PathVariable String cpf) {
+    @PutMapping("/{cpf}")
+    public  ResponseEntity<Void> update(@RequestBody @Valid RequestAtualizaClienteDTO requestClienteDTO, @PathVariable String cpf) {
         serviceCliente.atualizar(requestClienteDTO, cpf);
         return ResponseEntity.noContent().build();
     }
