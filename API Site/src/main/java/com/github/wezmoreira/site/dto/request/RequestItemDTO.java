@@ -29,6 +29,5 @@ public class RequestItemDTO {
     private String descricao;
     @NotBlank
     private String estoque;
-    @NotBlank
     private String skuid;
 }

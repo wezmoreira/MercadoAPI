@@ -1,25 +1,14 @@
 package com.github.wezmoreira.site.service;
 
-import com.github.wezmoreira.site.dto.request.RequestClienteCartoesDTO;
-import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
 import com.github.wezmoreira.site.dto.request.RequestItemDTO;
-import com.github.wezmoreira.site.dto.response.ResponseClienteCartoesDTO;
-import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseItemDTO;
-import com.github.wezmoreira.site.entities.Cliente;
-import com.github.wezmoreira.site.entities.ClienteCartoes;
 import com.github.wezmoreira.site.entities.Item;
-import com.github.wezmoreira.site.exceptions.CartaoNaoEncontradoException;
-import com.github.wezmoreira.site.exceptions.ClienteNaoEncontradoException;
 import com.github.wezmoreira.site.exceptions.ItemNaoEncontradoException;
-import com.github.wezmoreira.site.repositories.RepositoryCliente;
-import com.github.wezmoreira.site.repositories.RepositoryCliente_cartoes;
 import com.github.wezmoreira.site.repositories.RepositoryItem;
+import com.github.wezmoreira.site.util.CodigoSku;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -34,6 +23,9 @@ public class ServiceItem {
 
     @Autowired
     RepositoryItem repositoryItem;
+
+    @Autowired
+    CodigoSku codigoSku;
 
 
     public List<ResponseItemDTO> get() {
@@ -51,6 +43,7 @@ public class ServiceItem {
 
     public ResponseItemDTO post(RequestItemDTO requestItemDTO) {
         Item item = modelMapper.map(requestItemDTO, Item.class);
+        item.setSkuid(codigoSku.skuId());
         Item itemSalvo = repositoryItem.save(item);
         return modelMapper.map(itemSalvo, ResponseItemDTO.class);
     }
@@ -61,6 +54,4 @@ public class ServiceItem {
         modelMapper.map(requestItemDTO, item);
         repositoryItem.save(item);
     }
-
-
 }
