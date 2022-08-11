@@ -1,6 +1,6 @@
 package com.github.wezmoreira.site.service;
 
-import com.github.wezmoreira.site.dto.request.RequestAtualizaClienteDTO;
+import com.github.wezmoreira.site.dto.request.atualizacao.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
 import com.github.wezmoreira.site.entities.Cliente;

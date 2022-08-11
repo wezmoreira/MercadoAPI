@@ -1,6 +1,7 @@
 package com.github.wezmoreira.site.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.wezmoreira.site.entities.ClienteCartoes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -28,4 +30,5 @@ public class RequestClienteDTO {
     private String cpf;
     @NotBlank()
     private String nome;
+    private List<ClienteCartoes> cliente_cartoes;; // talvez retirar
 }

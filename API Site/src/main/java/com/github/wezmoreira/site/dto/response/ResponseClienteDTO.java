@@ -1,6 +1,7 @@
 package com.github.wezmoreira.site.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.wezmoreira.site.entities.ClienteCartoes;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,6 +13,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Data
@@ -23,4 +25,5 @@ public class ResponseClienteDTO {
     private String cpf;
     private String nome;
     private LocalDateTime data_criacao;
+    private List<ClienteCartoes> cliente_cartoes;;
 }

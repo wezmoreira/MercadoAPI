@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,4 +30,8 @@ public class Cliente {
     private String nome;
     @CreationTimestamp
     private LocalDateTime data_criacao;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "RL_cliente_id")
+    private List<ClienteCartoes> cliente_cartoes;
 }

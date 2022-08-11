@@ -1,4 +1,4 @@
-package com.github.wezmoreira.site.dto.request;
+package com.github.wezmoreira.site.dto.request.atualizacao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
