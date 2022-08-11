@@ -2,7 +2,7 @@ package com.github.wezmoreira.site.service;
 
 
 import com.github.wezmoreira.site.AplicationConfigTest;
-import com.github.wezmoreira.site.entities.Item;
+import com.github.wezmoreira.site.entities.Items;
 import com.github.wezmoreira.site.repositories.RepositoryItem;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -25,12 +25,12 @@ public class ServiceItemTest extends AplicationConfigTest {
     private ModelMapper modelMapper;
 
     @Autowired
-    ServiceItem serviceItem;
+    ServiceItems serviceItems;
 
     @Test
     @DisplayName("Deveria fazer um patch de algum campo de item")
     public void DeveriaFazerPatchDeItem(){
-        Item pedido = Mockito.mock(Item.class);
+        Items pedido = Mockito.mock(Items.class);
         LocalDateTime dataCriacao = LocalDateTime.of(2018, 07, 22, 10, 15, 30);
         LocalDateTime dataValidade = LocalDateTime.of(2025, 07, 22, 10, 15, 30);
         RequestAtualizaItemDTO requestAtualizaItemDTO = Mockito.mock(RequestAtualizaItemDTO.class);
@@ -38,7 +38,7 @@ public class ServiceItemTest extends AplicationConfigTest {
                 RequestAtualizaItemDTO.builder().nome("Headset").valor(50.0).descricao("Fone").data_criacao(dataCriacao)
                         .data_validade(dataValidade).build();
         Mockito.when(repositoryItem.findById(1L)).thenReturn(Optional.of(pedido));
-        serviceItem.patch(1L, itemDTO);
+        serviceItems.patch(1L, itemDTO);
         Assertions.assertEquals("Headset", itemDTO.getNome());
         Assertions.assertEquals(50.0, itemDTO.getValor());
         Assertions.assertEquals("Fone", itemDTO.getDescricao());

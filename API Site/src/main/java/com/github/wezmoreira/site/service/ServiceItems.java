@@ -1,8 +1,8 @@
 package com.github.wezmoreira.site.service;
 
-import com.github.wezmoreira.site.dto.request.RequestItemDTO;
-import com.github.wezmoreira.site.dto.response.ResponseItemDTO;
-import com.github.wezmoreira.site.entities.Item;
+import com.github.wezmoreira.site.dto.request.RequestItemsDTO;
+import com.github.wezmoreira.site.dto.response.ResponseItemsDTO;
+import com.github.wezmoreira.site.entities.Items;
 import com.github.wezmoreira.site.exceptions.ItemNaoEncontradoException;
 import com.github.wezmoreira.site.repositories.RepositoryItem;
 import com.github.wezmoreira.site.util.CodigoSku;
@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
-public class ServiceItem {
+public class ServiceItems {
 
     @Autowired
     private ModelMapper modelMapper;
@@ -28,28 +28,28 @@ public class ServiceItem {
     CodigoSku codigoSku;
 
 
-    public List<ResponseItemDTO> get() {
-        List<Item> items = repositoryItem.findAll();
+    public List<ResponseItemsDTO> get() {
+        List<Items> items = repositoryItem.findAll();
         return items.stream().map(item -> modelMapper.map
-                (item, ResponseItemDTO.class)).collect(Collectors.toList());
+                (item, ResponseItemsDTO.class)).collect(Collectors.toList());
     }
 
 
-    public ResponseItemDTO get(Long id) {
-        Item item = repositoryItem.findById(id)
+    public ResponseItemsDTO get(Long id) {
+        Items item = repositoryItem.findById(id)
                 .orElseThrow(ItemNaoEncontradoException::new);
-        return modelMapper.map(item, ResponseItemDTO.class);
+        return modelMapper.map(item, ResponseItemsDTO.class);
     }
 
-    public ResponseItemDTO post(RequestItemDTO requestItemDTO) {
-        Item item = modelMapper.map(requestItemDTO, Item.class);
+    public ResponseItemsDTO post(RequestItemsDTO requestItemDTO) {
+        Items item = modelMapper.map(requestItemDTO, Items.class);
         item.setSkuid(codigoSku.skuId());
-        Item itemSalvo = repositoryItem.save(item);
-        return modelMapper.map(itemSalvo, ResponseItemDTO.class);
+        Items itemSalvo = repositoryItem.save(item);
+        return modelMapper.map(itemSalvo, ResponseItemsDTO.class);
     }
 
-    public void atualizar(RequestItemDTO requestItemDTO, Long id) {
-        Item item = repositoryItem.findById(id)
+    public void atualizar(RequestItemsDTO requestItemDTO, Long id) {
+        Items item = repositoryItem.findById(id)
                 .orElseThrow(ItemNaoEncontradoException::new);
         modelMapper.map(requestItemDTO, item);
         repositoryItem.save(item);

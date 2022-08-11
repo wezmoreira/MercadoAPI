@@ -1,19 +1,20 @@
 package com.github.wezmoreira.site.dto.request;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.wezmoreira.site.entities.Cliente;
 import com.github.wezmoreira.site.entities.ClienteCartoes;
+import com.github.wezmoreira.site.entities.Items;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.validator.constraints.br.CPF;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -21,14 +22,9 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestClienteDTO {
-
-    @NotBlank(message = "O CPF deve ser unico")
-    @Column(unique=true, updatable = false)
-    @NotNull
-    @CPF(message = "Deve ser um CPF valido!")
-    private String cpf;
-    @NotBlank()
-    private String nome;
-    private List<ClienteCartoes> cliente_cartoes;
+public class RequestCheckoutTO {
+    @OneToMany(cascade = CascadeType.ALL)
+    List<Items> itens;
+    @OneToOne(cascade = CascadeType.ALL)
+    Cliente cliente_info;
 }

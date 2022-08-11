@@ -1,7 +1,7 @@
 package com.github.wezmoreira.site.service;
 
 import com.github.wezmoreira.site.AplicationConfigTest;
-import com.github.wezmoreira.site.entities.Item;
+import com.github.wezmoreira.site.entities.Items;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,12 +24,12 @@ public class ServiceValidacaoTest extends AplicationConfigTest {
         ServiceValidacao serviceValidacao = new ServiceValidacao();
         RequestPedidoDTO requestPedidoDTO = new RequestPedidoDTO();
         List<Oferta> ofertaList = new ArrayList<>();
-        List<Item> items = new ArrayList<>();
+        List<Items> items = new ArrayList<>();
         LocalDateTime dateTime = LocalDateTime.of(2022, 5, 2, 11, 22, 0);
         LocalDateTime dataCriacao = LocalDateTime.of(2018, 7, 22, 10, 15, 30);
         LocalDateTime dataValidade = LocalDateTime.of(2025, 7, 22, 10, 15, 30);
         ofertaList.add(Oferta.builder().id(1L).data_criacao(dataCriacao).data_validade(dataValidade).build());
-        items.add(Item.builder().id(1L).data_criacao(dataCriacao).data_validade(dataValidade).ofertas(ofertaList).build());
+        items.add(Items.builder().id(1L).data_criacao(dataCriacao).data_validade(dataValidade).ofertas(ofertaList).build());
         requestPedidoDTO.setItens(items);
         boolean testData = serviceValidacao.validaDataOfertas(requestPedidoDTO);
         Assertions.assertFalse(testData);  //mudei pra false
@@ -40,11 +40,11 @@ public class ServiceValidacaoTest extends AplicationConfigTest {
     public void DeveriaValidarDataItem(){
         ServiceValidacao serviceValidacao = new ServiceValidacao();
         RequestPedidoDTO requestPedidoDTO = new RequestPedidoDTO();
-        List<Item> items = new ArrayList<>();
+        List<Items> items = new ArrayList<>();
         LocalDateTime dateTime = LocalDateTime.of(2022, 5, 2, 11, 22, 0);
         LocalDateTime dataCriacao = LocalDateTime.of(2018, 7, 22, 10, 15, 30);
         LocalDateTime dataValidade = LocalDateTime.of(2025, 7, 22, 10, 15, 30);
-        items.add(Item.builder().id(1L).data_criacao(dataCriacao).data_validade(dataValidade).build());
+        items.add(Items.builder().id(1L).data_criacao(dataCriacao).data_validade(dataValidade).build());
         requestPedidoDTO.setItens(items);
         boolean testData = serviceValidacao.validaDataItem(requestPedidoDTO);
         Assertions.assertFalse(testData);

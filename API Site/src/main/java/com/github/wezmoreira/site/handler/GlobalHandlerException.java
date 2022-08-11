@@ -1,6 +1,7 @@
 package com.github.wezmoreira.site.handler;
 
 import com.github.wezmoreira.site.exceptions.CartaoNaoEncontradoException;
+import com.github.wezmoreira.site.exceptions.ClienteCadastradoException;
 import com.github.wezmoreira.site.exceptions.ClienteNaoEncontradoException;
 import com.github.wezmoreira.site.exceptions.ItemNaoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
@@ -22,7 +23,10 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
 
     private static final String CLIENTE_NAO_ENCONTRADO = "Cliente não encontrado";
     private static final String CARTAO_NAO_ENCONTRADO = "Cartao não encontrado";
-    private static final String ITEM_NAO_ENCONTRADO = "Item não encontrado";
+    private static final String ITEM_NAO_ENCONTRADO = "Items não encontrado";
+
+    private static final String CLIENTE_CADASTRADO = "Cliente ja cadastrado";
+
 
 
 
@@ -41,13 +45,12 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MensagemErro(ITEM_NAO_ENCONTRADO));
     }
 
-/*
-    @ExceptionHandler(value = RemocaoInvalidaException.class)
-    protected ResponseEntity<MensagemErro> handlerRemocaoInvalida(RemocaoInvalidaException exception) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemErro(REMOCAO_INVALIDA));
+    @ExceptionHandler(value = ClienteCadastradoException.class)
+    protected ResponseEntity<MensagemErro> handlerClienteJaCadastrado(ClienteCadastradoException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemErro(CLIENTE_CADASTRADO));
     }
 
- */
+
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid
             (MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {

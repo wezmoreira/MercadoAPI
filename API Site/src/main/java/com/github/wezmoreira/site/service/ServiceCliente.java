@@ -4,6 +4,7 @@ import com.github.wezmoreira.site.dto.request.atualizacao.RequestAtualizaCliente
 import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
 import com.github.wezmoreira.site.entities.Cliente;
+import com.github.wezmoreira.site.exceptions.ClienteCadastradoException;
 import com.github.wezmoreira.site.exceptions.ClienteNaoEncontradoException;
 import com.github.wezmoreira.site.repositories.RepositoryCliente;
 import org.modelmapper.ModelMapper;
@@ -40,6 +41,10 @@ public class ServiceCliente {
     }
 
     public ResponseClienteDTO post(RequestClienteDTO requestClienteDTO) {
+        String cpf = requestClienteDTO.getCpf();
+        if(repositoryCliente.existsById(cpf)){
+            throw new ClienteCadastradoException();
+        }
         Cliente cliente = modelMapper.map(requestClienteDTO, Cliente.class);
         Cliente clienteSalvo = repositoryCliente.save(cliente);
         return modelMapper.map(clienteSalvo, ResponseClienteDTO.class);
