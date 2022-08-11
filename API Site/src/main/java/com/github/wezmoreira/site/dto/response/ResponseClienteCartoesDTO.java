@@ -3,8 +3,6 @@ package com.github.wezmoreira.site.dto.response;
 import com.github.wezmoreira.site.enums.EnumMarca;
 import lombok.*;
 
-import javax.persistence.*;
-
 @Data
 @Getter
 @Setter

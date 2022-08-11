@@ -1,9 +1,7 @@
 package com.github.wezmoreira.site.controller;
 
-import com.github.wezmoreira.site.dto.request.RequestClienteCartoesDTO;
-import com.github.wezmoreira.site.dto.request.atualizacao.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
-import com.github.wezmoreira.site.dto.response.ResponseClienteCartoesDTO;
+import com.github.wezmoreira.site.dto.request.atualizacao.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
 import com.github.wezmoreira.site.service.ServiceCliente;
 import com.github.wezmoreira.site.service.ServiceClienteCartao;
@@ -59,58 +57,4 @@ public class ControllerCliente {
         serviceCliente.atualizar(requestClienteDTO, cpf);
         return ResponseEntity.noContent().build();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-// MUDAR O CONTROLLER E VER SE É PROBLEMA DE ROTA
-
-    @GetMapping("/{cpf}/cartoes/")
-    public ResponseEntity<ResponseClienteCartoesDTO> getCartao(@PathVariable String cpf) {
-        ResponseClienteCartoesDTO responseClienteCartoesDTO = serviceClienteCartao.get(cpf);
-        return ResponseEntity.ok(responseClienteCartoesDTO);
-    }
-
-    @PostMapping("/{cpf}/cartoes/")
-    public ResponseEntity<ResponseClienteCartoesDTO> postCartao
-            (@RequestBody @Valid RequestClienteCartoesDTO requestClienteCartoesDTO,
-             @PathVariable String cpf, UriComponentsBuilder uriComponentsBuilder) {
-        System.out.println("INICIO PORRA");
-        log.info("O valor do cpf do cliente é : " + cpf);
-        log.info("O valor do request é : " + requestClienteCartoesDTO);
-        ResponseClienteCartoesDTO responseClienteCartoesDTO = serviceClienteCartao.post(requestClienteCartoesDTO, cpf);
-        URI uri = uriComponentsBuilder.path("/api/cliente/{cpf}/cartoes/{id}").buildAndExpand(cpf, responseClienteCartoesDTO.getId()).toUri();
-        return ResponseEntity.created(uri).body(responseClienteCartoesDTO);
-    }
-
-    @PutMapping("/{cpf}/cartoes/{id}")
-    public  ResponseEntity<Void> updateCartao(@RequestBody @Valid RequestClienteCartoesDTO requestClienteCartoesDTO, @PathVariable Long id) {
-        serviceClienteCartao.atualizar(requestClienteCartoesDTO, id);
-        return ResponseEntity.noContent().build();
-    }
-
-
- */
-
-
 }

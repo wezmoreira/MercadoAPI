@@ -1,17 +1,11 @@
 package com.github.wezmoreira.site.controller;
 
 import com.github.wezmoreira.site.dto.request.RequestClienteCartoesDTO;
-import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
-import com.github.wezmoreira.site.dto.request.atualizacao.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteCartoesDTO;
-import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
-import com.github.wezmoreira.site.service.ServiceCliente;
 import com.github.wezmoreira.site.service.ServiceClienteCartao;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -30,7 +24,7 @@ public class ControllerClienteCartao {
     @Autowired
     ServiceClienteCartao serviceClienteCartao;
 
-    //ARRUMAR
+    //TA FUNCIONANDO
     @GetMapping("/api/cliente/{cpf}/cartoes")
     public ResponseEntity<List<ResponseClienteCartoesDTO>> getCartao(@PathVariable String cpf) {
         List<ResponseClienteCartoesDTO> responseClienteCartoesDTO = serviceClienteCartao.get(cpf);

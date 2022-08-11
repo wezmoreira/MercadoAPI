@@ -2,6 +2,7 @@ package com.github.wezmoreira.site.handler;
 
 import com.github.wezmoreira.site.exceptions.CartaoNaoEncontradoException;
 import com.github.wezmoreira.site.exceptions.ClienteNaoEncontradoException;
+import com.github.wezmoreira.site.exceptions.ItemNaoEncontradoException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,8 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
 
     private static final String CLIENTE_NAO_ENCONTRADO = "Cliente não encontrado";
     private static final String CARTAO_NAO_ENCONTRADO = "Cartao não encontrado";
+    private static final String ITEM_NAO_ENCONTRADO = "Item não encontrado";
+
 
 
     @ExceptionHandler(value = ClienteNaoEncontradoException.class)
@@ -31,6 +34,11 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = CartaoNaoEncontradoException.class)
     protected ResponseEntity<MensagemErro> handlerCartaoNaoEncontrado(ClienteNaoEncontradoException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MensagemErro(CLIENTE_NAO_ENCONTRADO));
+    }
+
+    @ExceptionHandler(value = ItemNaoEncontradoException.class)
+    protected ResponseEntity<MensagemErro> handlerItemNaoEncontrado(ItemNaoEncontradoException exception) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new MensagemErro(ITEM_NAO_ENCONTRADO));
     }
 
 /*

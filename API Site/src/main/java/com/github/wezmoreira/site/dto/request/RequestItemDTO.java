@@ -1,29 +1,27 @@
-package com.github.wezmoreira.site.entities;
+package com.github.wezmoreira.site.dto.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import java.time.LocalDateTime;
-import java.util.List;
 
-@Entity
-@Getter
-@Setter
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
+public class RequestItemDTO {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
     @NotBlank
     private String nome;
     @NotNull
-    @JsonFormat
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime data_validade;
     @NotNull @Positive
     private Double valor;
