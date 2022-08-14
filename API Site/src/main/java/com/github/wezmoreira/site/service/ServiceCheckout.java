@@ -12,6 +12,7 @@ import com.github.wezmoreira.site.enums.EnumStatusPagamento;
 import com.github.wezmoreira.site.enums.EnumTipoPagamento;
 import com.github.wezmoreira.site.exceptions.ClienteNaoEncontradoException;
 import com.github.wezmoreira.site.exceptions.ItemNaoEncontradoException;
+import com.github.wezmoreira.site.exceptions.SemEstoqueException;
 import com.github.wezmoreira.site.repositories.RepositoryCheckout;
 import com.github.wezmoreira.site.repositories.RepositoryCliente;
 import com.github.wezmoreira.site.repositories.RepositoryItem;
@@ -55,22 +56,6 @@ public class ServiceCheckout {
                 .orElseThrow(ClienteNaoEncontradoException::new);
         List<RequestCheckoutPedidoItemDTO> itemDTOList = montaItens(requestCheckoutDTO);
         var clienteCartoes = montaCartao(requestCheckoutDTO);
-
-        /*
-        RequestCheckoutPedidoPagamentoDTO clienteCartoes = RequestCheckoutPedidoPagamentoDTO.builder()
-                .nome_cartao(clientesId.getCliente_cartoes().get(0).getNome_cartao())
-                .numero_cartao(clientesId.getCliente_cartoes().get(0).getNumero_cartao())
-                .codigo_seguranca(clientesId.getCliente_cartoes().get(0).getCodigo_seguranca())
-                .marca(clientesId.getCliente_cartoes().get(0).getMarca())
-                .mes_expiracao(clientesId.getCliente_cartoes().get(0).getMes_expiracao())
-                .ano_expiracao(clientesId.getCliente_cartoes().get(0).getAno_expiracao())
-                .moeda(EnumMoeda.BRL)
-                .valor(50.0) //calculo do total
-                .build();
-
-
-         */
-        //********************************************
 
         RequestCheckoutPedidoDTO requestPedidoDTO = RequestCheckoutPedidoDTO.builder()
                 .cpf(clientesId.getCpf())
@@ -126,31 +111,27 @@ public class ServiceCheckout {
         return clienteCartoes;
     }
 
-
     public List<RequestCheckoutPedidoItemDTO> montaItens(RequestCheckoutDTO requestCheckoutDTO) {
         List<RequestCheckoutPedidoItemDTO> requestCheckoutPedidoItemDTOS = new ArrayList<>();
         List<RequestCheckoutOfertaDTO> ofertas = new ArrayList<>();
         for (int i = 0; i < requestCheckoutDTO.getItens().size(); i++) {
             try {
-            String id = requestCheckoutDTO.getItens().get(i).getSkuId();
-            Items items = repositoryItem.findBySkuid(id); //.orElseThrow(ItemNaoExiste::new);
-            log.info("O valor do pedidoItem antes  é: " + requestCheckoutDTO);
-
-            RequestCheckoutPedidoItemDTO pedidoItem = RequestCheckoutPedidoItemDTO.builder()
-                    .nome(items.getNome())
-                    .data_criacao(items.getData_criacao())
-                    .data_validade(items.getData_validade())
-                    .valor(items.getValor())
-                    .descricao(items.getDescricao())
-                    .ofertas(ofertas)
-                    .build();
-
-            requestCheckoutPedidoItemDTOS.add(pedidoItem);
-            repositoryItem.save(items);
+                String id = requestCheckoutDTO.getItens().get(i).getSkuId();
+                Items items = repositoryItem.findBySkuid(id);
+                log.info("O valor do pedidoItem antes  é: " + requestCheckoutDTO);
+                if (items.getEstoque() < items.getEstoque()) {
+                    throw new SemEstoqueException();
+                }
+                RequestCheckoutPedidoItemDTO pedidoItem = RequestCheckoutPedidoItemDTO.builder()
+                        .nome(items.getNome()).data_criacao(items.getData_criacao())
+                        .data_validade(items.getData_validade())
+                        .valor(items.getValor())
+                        .descricao(items.getDescricao()).ofertas(ofertas).build();
+                requestCheckoutPedidoItemDTOS.add(pedidoItem);
+                repositoryItem.save(items);
             }catch (NullPointerException e) {
                 throw new ItemNaoEncontradoException();
             }
-            //log.info("O valor do pedidoItem é: " + pedidoItem);
         }
         return requestCheckoutPedidoItemDTOS;
     }
