@@ -1,8 +1,11 @@
 package com.github.wezmoreira.site.controller;
 
+import com.github.wezmoreira.site.dto.checkout.request.RequestCheckoutDTO;
+import com.github.wezmoreira.site.dto.checkout.response.ResponseCheckoutPedidoDTO;
 import com.github.wezmoreira.site.dto.request.RequestClienteDTO;
 import com.github.wezmoreira.site.dto.request.atualizacao.RequestAtualizaClienteDTO;
 import com.github.wezmoreira.site.dto.response.ResponseClienteDTO;
+import com.github.wezmoreira.site.service.ServiceCheckout;
 import com.github.wezmoreira.site.service.ServiceCliente;
 import com.github.wezmoreira.site.service.ServiceClienteCartao;
 import lombok.extern.slf4j.Slf4j;
@@ -24,27 +27,15 @@ public class ControllerCheckout {
 
     @Autowired
     ModelMapper modelMapper;
-/*
-    @GetMapping
-    public ResponseEntity<Page<ResponseClienteDTO>> get
-            (@RequestParam(required = false) String cpf, Pageable pageable) {
-        Page<ResponseClienteDTO> responseClienteDTOS = serviceCliente.get(cpf, pageable);
-        return ResponseEntity.ok(responseClienteDTOS);
-    }
 
-    @GetMapping("/{cpf}")
-    public ResponseEntity<ResponseClienteDTO> get(@PathVariable String cpf) {
-        ResponseClienteDTO responseClienteDTO = serviceCliente.get(cpf);
-        return ResponseEntity.ok(responseClienteDTO);
-    }
+    @Autowired
+    ServiceCheckout serviceCheckout;
 
     @PostMapping
-    public ResponseEntity<ResponseClienteDTO> post
-            (@RequestBody @Valid RequestClienteDTO requestClienteDTO, UriComponentsBuilder uriComponentsBuilder) {
-        ResponseClienteDTO responseClienteDTO = serviceCliente.post(requestClienteDTO);
-        URI uri = uriComponentsBuilder.path("/api/cliente/{id}").buildAndExpand(responseClienteDTO.getCpf()).toUri();
-        return ResponseEntity.created(uri).body(responseClienteDTO);
+    public ResponseEntity<ResponseCheckoutPedidoDTO> post
+            (@RequestBody @Valid RequestCheckoutDTO requestCheckoutDTO, UriComponentsBuilder uriComponentsBuilder) {
+        ResponseCheckoutPedidoDTO responseCheckoutPedidoDTO = serviceCheckout.post(requestCheckoutDTO);
+        URI uri = uriComponentsBuilder.path("http://localhost:8080/api/pedido/").buildAndExpand(responseCheckoutPedidoDTO.getNumeroDoPedido()).toUri();
+        return ResponseEntity.created(uri).body(responseCheckoutPedidoDTO);
     }
-
- */
 }

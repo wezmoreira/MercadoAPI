@@ -38,6 +38,5 @@ public class RequestPedidoDTO {
     private List<@Valid Item> itens;
     @NotNull
     private Pagamento pedidoPagamento;
-    //private List<@Valid Pagamento> pedidoPagamento;
 
 }

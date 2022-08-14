@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @Setter
+@Builder
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,13 +23,16 @@ public class Items {
     @NotBlank
     private String nome;
     @NotNull
-    @JsonFormat
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
+    private LocalDateTime data_criacao;
+    @NotNull
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime data_validade;
     @NotNull @Positive
     private Double valor;
     @NotBlank
     private String descricao;
-    @NotBlank
-    private String estoque;
+    @NotNull
+    private Integer estoque;
     private String skuid;
 }

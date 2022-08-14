@@ -12,10 +12,10 @@ import lombok.*;
 public class ResponseClienteCartoesDTO {
 
     private Long id;
-    private String numero;
-    private String codigo;
+    private String nome_cartao;
+    private String numero_cartao;
+    private String codigo_seguranca;
     private EnumMarca marca;
-    private String mes_validade;
-    private String ano_validade;
-
+    private String mes_expiracao;
+    private String ano_expiracao;
 }

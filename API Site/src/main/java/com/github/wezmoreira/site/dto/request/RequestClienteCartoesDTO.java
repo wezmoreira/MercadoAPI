@@ -1,6 +1,7 @@
 package com.github.wezmoreira.site.dto.request;
 
 import com.github.wezmoreira.site.enums.EnumMarca;
+import com.github.wezmoreira.site.enums.EnumMoeda;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -15,16 +16,16 @@ import javax.validation.constraints.NotBlank;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestClienteCartoesDTO {
-    
     @NotBlank
-    private String numero;
+    private String nome_cartao;
     @NotBlank
-    private String codigo;
+    private String numero_cartao;
+    @NotBlank
+    private String codigo_seguranca;
     @Enumerated(EnumType.STRING)
     private EnumMarca marca;
     @NotBlank
-    private String mes_validade;
+    private String mes_expiracao;
     @NotBlank
-    private String ano_validade;
-
+    private String ano_expiracao;
 }

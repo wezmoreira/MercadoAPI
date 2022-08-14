@@ -1,9 +1,6 @@
 package com.github.wezmoreira.site.handler;
 
-import com.github.wezmoreira.site.exceptions.CartaoNaoEncontradoException;
-import com.github.wezmoreira.site.exceptions.ClienteCadastradoException;
-import com.github.wezmoreira.site.exceptions.ClienteNaoEncontradoException;
-import com.github.wezmoreira.site.exceptions.ItemNaoEncontradoException;
+import com.github.wezmoreira.site.exceptions.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -26,6 +23,9 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
     private static final String ITEM_NAO_ENCONTRADO = "Items não encontrado";
 
     private static final String CLIENTE_CADASTRADO = "Cliente ja cadastrado";
+
+    private static final String SEM_ESTOQUE = "Sem estoque";
+
 
 
 
@@ -50,6 +50,10 @@ public class GlobalHandlerException extends ResponseEntityExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemErro(CLIENTE_CADASTRADO));
     }
 
+    @ExceptionHandler(value = SemEstoqueException.class)
+    protected ResponseEntity<MensagemErro> handlerSemEstoque(SemEstoqueException exception) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new MensagemErro(SEM_ESTOQUE));
+    }
 
 
     protected ResponseEntity<Object> handleMethodArgumentNotValid

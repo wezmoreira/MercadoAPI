@@ -10,9 +10,13 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.reactive.function.client.WebClient;
 
 
 @Configuration
 public class RabbitConfig {
-
+    @Bean
+    public WebClient webClient(WebClient.Builder builder){
+        return builder.build();
+    }
 }

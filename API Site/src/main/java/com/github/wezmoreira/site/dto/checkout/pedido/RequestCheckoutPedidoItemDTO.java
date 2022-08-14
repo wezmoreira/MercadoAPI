@@ -1,4 +1,4 @@
-package com.github.wezmoreira.site.dto.request;
+package com.github.wezmoreira.site.dto.checkout.pedido;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -6,30 +6,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Positive;
+import javax.validation.Valid;
 import java.time.LocalDateTime;
+import java.util.List;
+
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestItemsDTO {
-
-    @NotBlank
+public class RequestCheckoutPedidoItemDTO {
     private String nome;
-    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime data_criacao;
-    @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private LocalDateTime data_validade;
-    @NotNull @Positive
     private Double valor;
-    @NotBlank
     private String descricao;
-    @NotNull
-    private Integer estoque;
-    private String skuid;
+
+    private List<RequestCheckoutOfertaDTO> ofertas;
 }
