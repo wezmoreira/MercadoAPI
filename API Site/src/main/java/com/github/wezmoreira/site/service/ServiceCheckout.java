@@ -2,6 +2,7 @@ package com.github.wezmoreira.site.service;
 
 import com.github.wezmoreira.site.dto.checkout.pedido.*;
 import com.github.wezmoreira.site.dto.checkout.request.RequestCheckoutDTO;
+import com.github.wezmoreira.site.dto.checkout.request.RequestCheckoutItemDTO;
 import com.github.wezmoreira.site.dto.checkout.response.ResponseCheckoutItemDTO;
 import com.github.wezmoreira.site.dto.checkout.response.ResponseCheckoutPedidoDTO;
 import com.github.wezmoreira.site.entities.Cliente;
@@ -16,6 +17,7 @@ import com.github.wezmoreira.site.exceptions.SemEstoqueException;
 import com.github.wezmoreira.site.repositories.RepositoryCheckout;
 import com.github.wezmoreira.site.repositories.RepositoryCliente;
 import com.github.wezmoreira.site.repositories.RepositoryItem;
+import com.github.wezmoreira.site.util.CalculaTotal;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,9 @@ public class ServiceCheckout {
     @Autowired
     RepositoryCheckout repositoryCheckout;
 
+    @Autowired
+    CalculaTotal calculaTotal;
+
     private final String uriPedido = "http://localhost:8080/api/pedido";
 
     public ResponseCheckoutPedidoDTO post(RequestCheckoutDTO requestCheckoutDTO) {
@@ -55,11 +60,12 @@ public class ServiceCheckout {
         Cliente clientesId = repositoryCliente.findById(requestCheckoutDTO.getCliente_info().getClienteId())
                 .orElseThrow(ClienteNaoEncontradoException::new);
         List<RequestCheckoutPedidoItemDTO> itemDTOList = montaItens(requestCheckoutDTO);
-        var clienteCartoes = montaCartao(requestCheckoutDTO);
+        var total = calculaTotal.calculaValor(itemDTOList);
+        var clienteCartoes = montaCartao(requestCheckoutDTO, total);
 
         RequestCheckoutPedidoDTO requestPedidoDTO = RequestCheckoutPedidoDTO.builder()
                 .cpf(clientesId.getCpf())
-                .total(50.0)
+                .total(total)
                 .status(EnumStatus.EM_ANDAMENTO)
                 .status_pagamento(EnumStatusPagamento.PROCESSING)
                 .tipo_pagamento(EnumTipoPagamento.CREDIT_CARD)
@@ -93,7 +99,7 @@ public class ServiceCheckout {
         return retornoPedido;
     }
 
-    public RequestCheckoutPedidoPagamentoDTO montaCartao(RequestCheckoutDTO requestCheckoutDTO){
+    public RequestCheckoutPedidoPagamentoDTO montaCartao(RequestCheckoutDTO requestCheckoutDTO, Double total){
         Cliente clientesId = repositoryCliente.findById(requestCheckoutDTO.getCliente_info().getClienteId())
                 .orElseThrow(ClienteNaoEncontradoException::new);
 
@@ -105,7 +111,7 @@ public class ServiceCheckout {
                 .mes_expiracao(clientesId.getCliente_cartoes().get(0).getMes_expiracao())
                 .ano_expiracao(clientesId.getCliente_cartoes().get(0).getAno_expiracao())
                 .moeda(EnumMoeda.BRL)
-                .valor(50.0) //precisa fazer o calculo do total
+                .valor(total)
                 .build();
 
         return clienteCartoes;
@@ -119,7 +125,7 @@ public class ServiceCheckout {
                 String id = requestCheckoutDTO.getItens().get(i).getSkuId();
                 Items items = repositoryItem.findBySkuid(id);
                 log.info("O valor do pedidoItem antes  é: " + requestCheckoutDTO);
-                if (items.getEstoque() < items.getEstoque()) {
+                if (items.getEstoque() < requestCheckoutDTO.getItens().get(i).getQtd()) {
                     throw new SemEstoqueException();
                 }
                 RequestCheckoutPedidoItemDTO pedidoItem = RequestCheckoutPedidoItemDTO.builder()
@@ -128,6 +134,7 @@ public class ServiceCheckout {
                         .valor(items.getValor())
                         .descricao(items.getDescricao()).ofertas(ofertas).build();
                 requestCheckoutPedidoItemDTOS.add(pedidoItem);
+                items.setEstoque(items.getEstoque() - requestCheckoutDTO.getItens().get(i).getQtd());
                 repositoryItem.save(items);
             }catch (NullPointerException e) {
                 throw new ItemNaoEncontradoException();
