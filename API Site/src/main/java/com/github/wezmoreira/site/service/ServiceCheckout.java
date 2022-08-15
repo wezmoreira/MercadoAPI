@@ -73,8 +73,6 @@ public class ServiceCheckout {
                 .pedidoPagamento(clienteCartoes)
                 .build();
 
-        log.info("O valor da request é: " + requestPedidoDTO);
-
         var retorno = webClient.build().post()
                 .uri(uriPedido)
                 .bodyValue(requestPedidoDTO)
@@ -82,7 +80,6 @@ public class ServiceCheckout {
                 .bodyToMono(ResponseRetornoPedidoDTO.class)
                 .block();
 
-        log.info("O valor de retorno é: " + retorno);
         return retornoDoPedido(retorno);
     }
 
@@ -124,7 +121,6 @@ public class ServiceCheckout {
             try {
                 String id = requestCheckoutDTO.getItens().get(i).getSkuId();
                 Items items = repositoryItem.findBySkuid(id);
-                log.info("O valor do pedidoItem antes  é: " + requestCheckoutDTO);
                 if (items.getEstoque() < requestCheckoutDTO.getItens().get(i).getQtd()) {
                     throw new SemEstoqueException();
                 }
