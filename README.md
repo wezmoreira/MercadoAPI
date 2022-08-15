@@ -1,4 +1,99 @@
-# Avaliação Sprint 5 e Sprint 6
+# Avaliação Sprint 8
+
+## Endpoints
+
+## CLIENTE
+### Post 
+- http://localhost:8082/api/cliente
+#### O Cpf deve ser válido!
+```
+{
+    "cpf":"12345678900",
+    "nome": "Fulano"
+}
+```
+### Get
+- http://localhost:8082/api/cliente
+
+#### get por cpf 
+- http://localhost:8082/api/cliente/{cpf}
+
+### Update
+- http://localhost:8082/api/cliente/{cpf}
+
+## CLIENTES_CARTOES
+
+### Post
+- http://localhost:8082/api/cliente/{cpf}/cartoes/
+```
+{
+    "nome_cartao": "Nome cartao",
+    "numero_cartao": "1234567",
+    "codigo_seguranca": "123",
+    "marca": "MASTERCARD",
+    "mes_expiracao": "5",
+    "ano_expiracao": "23"
+}        
+```
+
+### Get
+- http://localhost:8082/api/cliente/{cpf}/cartoes/
+
+### Update
+- http://localhost:8082/api/cliente/{cpf}/cartoes/{id}
+
+## ITEMS
+
+### Post
+- http://localhost:8082/api/item/
+#### Data_Criação deve ser menor que Data_validade
+```
+{
+    "nome": "Headset Gamer",
+    "data_criacao": "02/06/2021 01:01:20",
+    "data_validade": "02/06/2025 01:01:20",
+    "valor": 200.0,
+    "descricao": "Fone gamer",
+    "estoque": 50
+}       
+```
+### Get
+- http://localhost:8082/api/item/
+
+### Get por id
+- http://localhost:8082/api/item/{id}
+
+### Update
+- http://localhost:8082/api/item/{id}
+
+
+## CHECKOUT 
+
+### Post
+- http://localhost:8082/api/checkout
+```
+{
+    "itens" : [
+        {
+            "skuId" : "Aqui deve ser inserido o "skuId" gerado quando cadastra um item",
+            "qtd" : 1
+        },
+        {
+            "skuId": "Aqui deve ser inserido o "skuId" gerado quando cadastra um item",
+            "qtd": 1
+        }
+    ],
+    "cliente_info" : {
+        "clienteId" : "Aqui deve ser inserido o CPF do cliente",
+        "cartaoId" : "Aqui deve ser inserido o Id do cartão"
+    }
+}    
+```
+
+
+
+
+# Endpoints da Avaliação Sprint 7
 
 ## Endpoints
 
