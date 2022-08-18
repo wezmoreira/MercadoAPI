@@ -60,7 +60,7 @@ public class ServiceCheckout {
         Cliente clientesId = repositoryCliente.findById(requestCheckoutDTO.getCliente_info().getClienteId())
                 .orElseThrow(ClienteNaoEncontradoException::new);
         List<RequestCheckoutPedidoItemDTO> itemDTOList = montaItens(requestCheckoutDTO);
-        var total = calculaTotal.calculaValor(itemDTOList);
+        var total = calculaTotal.calculaValor(itemDTOList, requestCheckoutDTO);
         var clienteCartoes = montaCartao(requestCheckoutDTO, total);
 
         RequestCheckoutPedidoDTO requestPedidoDTO = RequestCheckoutPedidoDTO.builder()
