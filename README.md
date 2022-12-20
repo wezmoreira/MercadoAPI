@@ -1,6 +1,6 @@
 # Mercado API
 
-## Endpoints
+## Endpoints "API Site"
 
 ## CLIENTE
 ### Post 
@@ -93,7 +93,7 @@
 
 
 
-# Endpoints 
+# Endpoints "API Pedidos"
 
 ## Endpoints
 
