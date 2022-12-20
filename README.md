@@ -1,4 +1,4 @@
-# Avaliação
+# Mercado API
 
 ## Endpoints
 
@@ -93,7 +93,7 @@
 
 
 
-# Endpoints da Avaliação Sprint 7
+# Endpoints 
 
 ## Endpoints
 
@@ -168,7 +168,7 @@
 
 
 
-### Referências que utilizei para executar essa prova:
+### Referências que utilizei para executar esse projeto:
 
 https://stackoverflow.com/questions/9841623/mockito-how-to-verify-method-was-called-on-an-object-created-within-a-method
 
@@ -184,7 +184,7 @@ https://fabiano-goes.medium.com/api-rest-com-paginação-usando-spring-data-e-qu
 https://www.youtube.com/watch?v=SzcvuHjRJKE
 
 
-### Referências que utilizei para executar essa prova Sprint 6:
+### Referências que utilizei para executar esse projeto:
 
 https://www.baeldung.com/spring-5-webclient
 
